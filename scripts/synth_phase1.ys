@@ -1,0 +1,31 @@
+# Generic Yosys synthesis (module-level, not FPGA place-and-route).
+# Run from repository root: yosys -s scripts/synth_phase1.ys
+# Reports logic statistics for each RTL module independently.
+# This does not produce target-specific Fmax or routed utilization.
+read_verilog rtl/address_decoder.v rtl/cache_storage.v rtl/cache_controller.v rtl/performance_monitor.v
+hierarchy -check -top address_decoder
+proc
+opt
+check
+stat
+design -reset
+read_verilog rtl/cache_storage.v
+hierarchy -check -top cache_storage
+proc
+opt
+check
+stat
+design -reset
+read_verilog rtl/cache_controller.v
+hierarchy -check -top cache_controller
+proc
+opt
+check
+stat
+design -reset
+read_verilog rtl/performance_monitor.v
+hierarchy -check -top performance_monitor
+proc
+opt
+check
+stat
